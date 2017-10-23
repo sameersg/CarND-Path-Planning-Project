@@ -271,8 +271,9 @@ int main() {
 
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
-                double check_speed = sqrt(vx*vx * vy*vy);
                 double check_car_s = sensor_fusion[i][5];
+                double check_speed = sqrt(vx*vx * vy*vy);
+
 
                 check_car_s += check_speed * prev_size * sampling;
 
@@ -301,8 +302,8 @@ int main() {
 
                     double vx = sensor_fusion[i][3];
                     double vy = sensor_fusion[i][4];
-                    double check_speed = sqrt(vx*vx * vy*vy);
                     double check_car_s = sensor_fusion[i][5];
+                    double check_speed = sqrt(vx*vx * vy*vy);
 
                     check_car_s += check_speed * prev_size * sampling;
 
@@ -399,8 +400,8 @@ int main() {
               double shift_x = ptsx[i]-ref_x;
               double shift_y = ptsy[i]-ref_y;
 
-              ptsx[i] = (shift_x *cos(- ref_yaw) -shift_y*sin(0 - ref_yaw));
-              ptsy[i] = (shift_x *sin(0 - ref_yaw) +shift_y*cos(0 - ref_yaw));
+              ptsx[i] = (shift_x *cos(- ref_yaw) -shift_y*sin(- ref_yaw));
+              ptsy[i] = (shift_x *sin(- ref_yaw) +shift_y*cos(- ref_yaw));
             }
 
             tk::spline s;
@@ -412,7 +413,7 @@ int main() {
             vector<double> next_x_vals;
             vector<double> next_y_vals;
 
-            for(int i = 0; i < previous_path_x.size(); ++i){
+            for(int i = 0; i < prev_size; ++i){
 
               next_x_vals.push_back(previous_path_x[i]);
               next_y_vals.push_back(previous_path_y[i]);
@@ -428,7 +429,7 @@ int main() {
             for (int i = 0; i < 50 - prev_size; ++i){
 
               double N = target_dist/(sampling *ref_vel/2.24);
-              double x_point = x_add_on+(target_x)/ N;
+              double x_point = x_add_on + target_x / N;
               double y_point = s(x_point);
 
               x_add_on = x_point;
