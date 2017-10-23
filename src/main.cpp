@@ -267,7 +267,7 @@ int main() {
 
               double d = sensor_fusion[i][6];
               // car is in my lane
-              if(d < (lane_width * (lane +1)) && d > (lane_width * lane)) {
+              if(d > (lane_width * lane) && d < (lane_width * (lane +1))) {
 
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
@@ -290,6 +290,7 @@ int main() {
               bool left_collision = false;
               bool right_collision = false;
               bool changed_lane = false;
+
               //Check left lane
               if((lane -1 ) >= 0){
                 proposed_lane = lane - 1;
@@ -305,7 +306,7 @@ int main() {
 
                     check_car_s += check_speed * prev_size * sampling;
 
-                    if((check_car_s > car_s) && ((check_car_s-car_s) < SAFE_FWD)) {
+                    if((check_car_s > car_s) && ((check_car_s - car_s) < SAFE_FWD)) {
                       left_collision = true;
                     }
                     if((check_car_s < car_s) && ((car_s - check_car_s) < SAFE_BWD)) {
@@ -321,7 +322,7 @@ int main() {
               }
 
               // Check right lane
-              if ((lane + 1 < 3) && ! changed_lane){
+              if ((lane + 1 < 3) && !changed_lane){
                 proposed_lane = lane +1;
                 for (int i = 0; i < sensor_fusion.size(); ++i){
                   float d = sensor_fusion[i][6];
@@ -393,12 +394,12 @@ int main() {
             ptsy.push_back(next_wp1[1]);
             ptsy.push_back(next_wp2[1]);
 
-            for (int i = 0; i < ptsx.size(); i++){
+            for (int i = 0; i < ptsx.size(); ++i){
 
               double shift_x = ptsx[i]-ref_x;
               double shift_y = ptsy[i]-ref_y;
 
-              ptsx[i] = (shift_x *cos(0 - ref_yaw) -shift_y*sin(0 - ref_yaw));
+              ptsx[i] = (shift_x *cos(- ref_yaw) -shift_y*sin(0 - ref_yaw));
               ptsy[i] = (shift_x *sin(0 - ref_yaw) +shift_y*cos(0 - ref_yaw));
             }
 
@@ -411,7 +412,7 @@ int main() {
             vector<double> next_x_vals;
             vector<double> next_y_vals;
 
-            for(int i = 0; i < previous_path_x.size(); i++){
+            for(int i = 0; i < previous_path_x.size(); ++i){
 
               next_x_vals.push_back(previous_path_x[i]);
               next_y_vals.push_back(previous_path_y[i]);
@@ -424,7 +425,7 @@ int main() {
             double x_add_on = 0;
 
 
-            for (int i = 0; i < 50 - prev_size; i++){
+            for (int i = 0; i < 50 - prev_size; ++i){
 
               double N = target_dist/(sampling *ref_vel/2.24);
               double x_point = x_add_on+(target_x)/ N;
