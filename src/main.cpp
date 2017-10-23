@@ -278,7 +278,6 @@ int main() {
                 check_car_s += check_speed * prev_size * sampling;
 
                 if((check_car_s > car_s) && ((check_car_s-car_s) < SAFE_FWD)) {
-
                   too_close = true;
                 }
               }
@@ -332,8 +331,8 @@ int main() {
 
                     double vx = sensor_fusion[i][3];
                     double vy = sensor_fusion[i][4];
-                    double check_speed = sqrt(vx*vx * vy*vy);
                     double check_car_s = sensor_fusion[i][5];
+                    double check_speed = sqrt(vx*vx * vy*vy);
 
                     check_car_s += check_speed * prev_size * sampling;
 
@@ -355,6 +354,7 @@ int main() {
 
 
             if(prev_size < 2){
+
               ref_x = car_x;
               ref_y = car_y;
               ref_yaw = deg2rad(car_yaw);
@@ -383,9 +383,9 @@ int main() {
               ptsy.push_back(ref_y);
             }
 
-            vector<double> next_wp0 = getXY(car_s+30, (lane_width/2 + lane_width*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
-            vector<double> next_wp1 = getXY(car_s+60, (lane_width/2 + lane_width*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
-            vector<double> next_wp2 = getXY(car_s+90, (lane_width/2 + lane_width*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
+            vector<double> next_wp0 = getXY(car_s +30, (lane_width/2 + lane_width*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
+            vector<double> next_wp1 = getXY(car_s +60, (lane_width/2 + lane_width*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
+            vector<double> next_wp2 = getXY(car_s +90, (lane_width/2 + lane_width*lane), map_waypoints_s,map_waypoints_x,map_waypoints_y);
 
             ptsx.push_back(next_wp0[0]);
             ptsx.push_back(next_wp1[0]);
@@ -400,8 +400,8 @@ int main() {
               double shift_x = ptsx[i]-ref_x;
               double shift_y = ptsy[i]-ref_y;
 
-              ptsx[i] = (shift_x *cos(- ref_yaw) -shift_y*sin(- ref_yaw));
-              ptsy[i] = (shift_x *sin(- ref_yaw) +shift_y*cos(- ref_yaw));
+              ptsx[i] = (shift_x *cos(-ref_yaw) - shift_y*sin(-ref_yaw));
+              ptsy[i] = (shift_x *sin(-ref_yaw) + shift_y*cos(-ref_yaw));
             }
 
             tk::spline s;
@@ -421,14 +421,14 @@ int main() {
 
             double target_x = 30.0;
             double target_y = s(target_x);
-            double target_dist = sqrt((target_x)*(target_x) + (target_y)*(target_y));
+            double target_dist = sqrt(pow(target_x,2) + pow(target_y,2));
 
             double x_add_on = 0;
 
 
             for (int i = 0; i < 50 - prev_size; ++i){
 
-              double N = target_dist/(sampling *ref_vel/2.24);
+              int N = target_dist/(sampling *ref_vel/2.24);
               double x_point = x_add_on + target_x / N;
               double y_point = s(x_point);
 
@@ -437,8 +437,8 @@ int main() {
               double x_ref = x_point;
               double y_ref = y_point;
 
-              x_point = (x_ref*cos(ref_yaw)-y_ref*sin(ref_yaw));
-              y_point = (x_ref*sin(ref_yaw)+y_ref*cos(ref_yaw));
+              x_point = x_ref *cos (ref_yaw) - y_ref*sin(ref_yaw);
+              y_point = x_ref *sin (ref_yaw) + y_ref*cos(ref_yaw);
 
               x_point += ref_x;
               y_point += ref_y;
