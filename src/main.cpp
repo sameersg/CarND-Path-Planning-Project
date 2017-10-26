@@ -379,13 +379,13 @@ int main() {
                possible_lanes = {0,1};
              } else if(lane == 1){
                possible_lanes = {0,1,2};
-             }else if (lane == 2){
+             }else {
                possible_lanes = {1,2};
              }
 
              int best_lane = lane;
 
-             double best_cost;
+             double best_cost=numeric_limits<double>::max();
 
              for (int check_lane: possible_lanes){
                double cost = 0;
@@ -404,7 +404,7 @@ int main() {
                double nearest = NearestCar(ids, sensor_fusion, .02*prev_size, car_s);
 
                // Forward Distance to car
-               double buffer = 10;
+               double buffer = 30;
 
                if(nearest < buffer){
                  cost += pow(10,5);
@@ -427,13 +427,11 @@ int main() {
               // change lane
               lane = best_lane;
 
-           } else{
-
-             if (ref_vel < max_vel){
+           } else if (ref_vel < max_vel){
                ref_vel += .224;
              }
 
-           }
+
 
            ref_x = car_x;
            ref_y = car_y;
