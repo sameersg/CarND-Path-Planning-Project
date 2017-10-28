@@ -3,7 +3,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 ### Reflection
 
-![Gif](/Users/Sameer/Dev/T3-P1-Path-Planning-Project/media/path_planning_fast.gif)
+![](/Users/Sameer/Dev/T3-P1-Path-Planning-Project/media/path_planning_fast.gif)
 
 My code is based on the walkthrough video. Spline libarary is used for smooth trajectery 
 
