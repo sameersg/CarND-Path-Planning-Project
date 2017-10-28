@@ -1,5 +1,21 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
+
+### Reflection
+
+![Gif](/Users/Sameer/Dev/T3-P1-Path-Planning-Project/media/path_planning_fast.gif)
+
+My code is based on the walkthrough video. Spline libarary is used for smooth trajectery 
+
+Driving smoothly and chaning lanes is done by getting senser fusion data about the other cars.
+The car starts in the middle lane. Lane 0 is the left lane, 1 is the middle lane and 2 the right lane. Now i am driving in lane 1, is there a car ahead of me if yes, then i decrease the velocity by 0.224 m/s per way points and check if it is possible to change lane. (263-277)
+Is there a car in the left lane near 30m then it checks the right lane if it is safe to go there. If not then it stays in the lane till it is safe and then it changes lanes and speeds up to 49.5 mph. (282-346) There is a Video in the Media folder. 
+
+### Learning
+The logic would be much better by implementing a cost function that avoid lane changes that are not necessary beacause the car in the other lane are also driving slow and it's better to stay in lane and wait.  
+
+
+
    
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases).

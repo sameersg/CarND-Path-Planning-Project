@@ -267,6 +267,7 @@ int main()
                                 ref_vel -= 0.224;
                             }
                             // Only 20m slow again
+                            //Solves the problem of collions that happend sometimes
                             if ((check_car_s > car_s) && ((check_car_s - car_s) < 20)) {
                                 ref_vel -= 0.224;
                             }
